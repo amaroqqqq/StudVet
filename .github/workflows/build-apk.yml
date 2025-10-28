@@ -31,9 +31,15 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
-    - name: 🔧 CLEAN AND RECREATE ANDROID
+    - name: 🔧 FUCKING FIX PERMISSIONS
       run: |
-        echo "=== Cleaning old Android platform ==="
+        echo "=== Fixing all permissions ==="
+        chmod -R 755 node_modules/
+        ls -la node_modules/.bin/cap
+        node -e "require('@capacitor/cli').run(['--version'])" || echo "Trying npx..."
+        
+    - name: ⚙️ USE NPX FOR EVERYTHING
+      run: |
         rm -rf android
         npx cap init "VetApp" "com.vet.app" --web-dir dist
         npx cap add android
