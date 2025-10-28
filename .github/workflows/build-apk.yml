@@ -19,28 +19,20 @@ jobs:
       run: |
         npm install
         npm install vite@5.0.0 --save-dev
-        npm install @capacitor/core @capacitor/cli @capacitor/android --save-dev
         
     - name: 🏗️ Build PWA
       run: |
         npx vite build
         
-    - name: ☕ Setup Java 17
+    - name: ☕ Setup Java 21
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
         
-    - name: 🔧 FUCKING FIX PERMISSIONS
+    - name: ⚙️ Setup Capacitor
       run: |
-        echo "=== Fixing all permissions ==="
-        chmod -R 755 node_modules/
-        ls -la node_modules/.bin/cap
-        node -e "require('@capacitor/cli').run(['--version'])" || echo "Trying npx..."
-        
-    - name: ⚙️ USE NPX FOR EVERYTHING
-      run: |
-        rm -rf android
+        npm install @capacitor/core @capacitor/cli @capacitor/android --save-dev
         npx cap init "VetApp" "com.vet.app" --web-dir dist
         npx cap add android
         npx cap sync
