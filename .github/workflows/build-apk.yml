@@ -31,18 +31,18 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         
-    - name: 🔧 FIX CAPACITOR PERMISSIONS
+    - name: 🔧 FIX CAPACITOR - SKIP INIT IF EXISTS
       run: |
-        echo "=== Fixing Capacitor permissions ==="
-        chmod +x node_modules/.bin/cap
-        ls -la node_modules/.bin/cap
-        ./node_modules/.bin/cap --version || echo "Trying alternative..."
-        
-    - name: ⚙️ Init Capacitor WITH ABSOLUTE PATH
-      run: |
-        ./node_modules/.bin/cap init "VetApp" "com.vet.app" --web-dir dist
-        ./node_modules/.bin/cap add android
-        ./node_modules/.bin/cap sync
+        echo "=== Checking existing Android platform ==="
+        if [ -d "android" ]; then
+          echo "Android platform exists, skipping init"
+          ./node_modules/.bin/cap sync
+        else
+          echo "Creating new Android platform"
+          ./node_modules/.bin/cap init "VetApp" "com.vet.app" --web-dir dist
+          ./node_modules/.bin/cap add android
+          ./node_modules/.bin/cap sync
+        fi
         
     - name: 🤖 Build APK
       run: |
