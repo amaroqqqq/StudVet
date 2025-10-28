@@ -15,7 +15,7 @@ jobs:
       with:
         node-version: '20'
         
-    - name: 📦 Install deps
+    - name: 📦 Install ALL dependencies
       run: |
         npm install
         npm install vite@5.0.0 --save-dev
@@ -31,9 +31,16 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         
-    - name: 🔧 JUST SYNC CAPACITOR
+    - name: 🔧 FIX PERMISSIONS ONCE AND FOR ALL
       run: |
-        ./node_modules/.bin/cap sync
+        echo "=== Fixing ALL permissions ==="
+        chmod -R +x node_modules/.bin/
+        ls -la node_modules/.bin/cap
+        node -e "console.log('Capacitor version:', require('@capacitor/cli/package.json').version)"
+        
+    - name: ⚙️ SYNC WITH NPX
+      run: |
+        npx cap sync
         
     - name: 🤖 Build APK
       run: |
