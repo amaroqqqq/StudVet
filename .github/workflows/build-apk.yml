@@ -19,11 +19,17 @@ jobs:
         node-version: 20
         cache: 'npm'
         
-    - name: 📦 Install dependencies
-      run: npm install
-      
+    - name: 📦 Install ALL dependencies
+      run: |
+        npm install
+        npm install vite --save-dev
+        npx vite --version || echo "Vite check"
+        
     - name: 🏗️ Build PWA
-      run: npm run build
+      run: |
+        echo "=== Building PWA ==="
+        npx vite build
+        ls -la dist/
         
     - name: ☕ Setup Java
       uses: actions/setup-java@v4
@@ -34,7 +40,6 @@ jobs:
     - name: 📦 Install Capacitor
       run: |
         npm install @capacitor/core @capacitor/cli @capacitor/android
-        npx cap --version
         
     - name: ⚙️ Initialize Capacitor
       run: |
@@ -53,4 +58,3 @@ jobs:
       with:
         name: vet-anatlas-apk
         path: android/app/build/outputs/apk/debug/app-debug.apk
-        retention-days: 7
