@@ -1,59 +1,46 @@
-name: Build Android APK
+name: Build APK
 
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+on: [workflow_dispatch]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     
     steps:
+    - name: 🔍 Check what's wrong
+      run: |
+        echo "=== Checking system ==="
+        pwd
+        ls -la
+        which node
+        which npm
+        node --version || echo "Node not found"
+        npm --version || echo "NPM not found"
+        
     - name: 📥 Checkout code
       uses: actions/checkout@v4
       
-    - name: ⚙️ Setup Node.js
+    - name: 🐳 Use Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: 20
         cache: 'npm'
         
-    - name: 📦 Install project dependencies
+    - name: 🔍 Check Node after setup
       run: |
-        npm install
-        npm list
+        echo "=== After Node setup ==="
+        node --version
+        npm --version
+        ls -la
         
-    - name: 🏗️ Build PWA
+    - name: 📦 Try install
       run: |
-        npm run build
-        ls -la dist/
+        echo "=== Installing ==="
+        npm install || echo "Install failed"
+        ls -la node_modules/ || echo "No node_modules"
         
-    - name: 📦 Install Capacitor
+    - name: 🏗️ Try build
       run: |
-        npm install @capacitor/core @capacitor/cli @capacitor/android
-        npx cap --version
-        
-    - name: ☕ Setup Java
-      uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        
-    - name: ⚙️ Initialize Capacitor
-      run: |
-        npx cap init "VetAnatlas" "com.vetanatlas.app" --web-dir dist
-        npx cap add android
-        npx cap sync
-        
-    - name: 🤖 Build Android APK
-      run: |
-        cd android
-        chmod +x ./gradlew
-        ./gradlew assembleDebug
-        
-    - name: 📤 Upload APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: vet-anatlas-apk
-        path: android/app/build/outputs/apk/debug/app-debug.apk
+        echo "=== Building ==="
+        npm run build || echo "Build failed"
+        ls -la dist/ || echo "No dist folder"
