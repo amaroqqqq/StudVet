@@ -2,71 +2,46 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ main, master ]
-  workflow_dispatch:  # Позволяет запускать вручную
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     
     steps:
-    # Шаг 1: Загружаем код
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
       
-    # Шаг 2: Устанавливаем Node.js
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
+    - name: ⚙️ Setup Node.js
+      uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'
         
-    # Шаг 3: Устанавливаем зависимости
-    - name: Install dependencies
-      run: |
-        npm install
-        npm list
+    - name: 📦 Install dependencies
+      run: npm install
+      
+    - name: 🏗️ Build PWA
+      run: npm run build
         
-    # Шаг 4: Собираем PWA
-    - name: Build PWA
-      run: |
-        npm run build
-        ls -la dist/
-        
-    # Шаг 5: Устанавливаем Java (нужна для Android)
-    - name: Setup Java
-      uses: actions/setup-java@v3
+    - name: ☕ Setup Java
+      uses: actions/setup-java@v4
       with:
         java-version: '11'
         distribution: 'temurin'
         
-    # Шаг 6: Собираем APK через Capacitor
-    - name: Build Android APK
+    - name: 🤖 Build Android APK
       run: |
-        echo "📱 Установка Capacitor..."
         npm install @capacitor/core @capacitor/cli @capacitor/android
-        
-        echo "⚙️ Инициализация Capacitor..."
         npx cap init "Ветеринарный Атлас" "com.vetanatlas.app" --web-dir dist
-        
-        echo "📦 Добавление Android платформы..."
         npx cap add android
-        
-        echo "🔄 Синхронизация..."
         npx cap sync
-        
-        echo "🏗️ Сборка APK..."
         cd android
         chmod +x ./gradlew
         ./gradlew assembleDebug
         
-        echo "✅ Проверка APK..."
-        ls -la app/build/outputs/apk/debug/
-        
-    # Шаг 7: Загружаем готовый APK
-    - name: Upload APK
-      uses: actions/upload-artifact@v3
+    - name: 📤 Upload APK
+      uses: actions/upload-artifact@v4
       with:
         name: vet-anatlas-apk
         path: android/app/build/outputs/apk/debug/app-debug.apk
-        retention-days: 30
