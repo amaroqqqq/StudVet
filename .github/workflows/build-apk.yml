@@ -17,12 +17,22 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'npm'
         
-    - name: 📦 Install dependencies
-      run: npm install
-      
+    - name: 📦 Install project dependencies
+      run: |
+        npm install
+        npm list
+        
     - name: 🏗️ Build PWA
-      run: npm run build
+      run: |
+        npm run build
+        ls -la dist/
+        
+    - name: 📦 Install Capacitor
+      run: |
+        npm install @capacitor/core @capacitor/cli @capacitor/android
+        npx cap --version
         
     - name: ☕ Setup Java
       uses: actions/setup-java@v4
@@ -30,12 +40,14 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         
-    - name: 🤖 Build Android APK
+    - name: ⚙️ Initialize Capacitor
       run: |
-        npm install @capacitor/core @capacitor/cli @capacitor/android
-        npx cap init "Ветеринарный Атлас" "com.vetanatlas.app" --web-dir dist
+        npx cap init "VetAnatlas" "com.vetanatlas.app" --web-dir dist
         npx cap add android
         npx cap sync
+        
+    - name: 🤖 Build Android APK
+      run: |
         cd android
         chmod +x ./gradlew
         ./gradlew assembleDebug
