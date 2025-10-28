@@ -10,36 +10,19 @@ jobs:
     - name: 📥 Checkout code
       uses: actions/checkout@v4
       
-    - name: 🐛 Debug Environment
-      run: |
-        echo "=== ENVIRONMENT CHECK ==="
-        pwd
-        ls -la
-        which sh
-        which bash
-        echo "=== NODE CHECK ==="
-        node --version || echo "NO NODE"
-        npm --version || echo "NO NPM"
-        npx --version || echo "NO NPX"
-        
-    - name: ⚙️ Setup Node.js PROPERLY
+    - name: ⚙️ Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18.x'
-        check-latest: true
+        node-version: '18'
         
-    - name: 📦 INSTALL WITH FORCE
+    - name: 📦 Install deps
       run: |
-        echo "=== FORCE INSTALL ==="
-        npm install --force
-        npm install vite@5.0.0 --save-dev --force
-        ./node_modules/.bin/vite --version || echo "Vite not in node_modules"
+        npm install
+        npm install vite --save-dev
         
-    - name: 🏗️ BUILD WITH ABSOLUTE PATH
+    - name: 🏗️ Build PWA
       run: |
-        echo "=== BUILDING ==="
-        ./node_modules/.bin/vite build
-        ls -la dist/ || echo "NO DIST"
+        npx vite build
         
     - name: ☕ Setup Java
       uses: actions/setup-java@v4
@@ -47,13 +30,15 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         
-    - name: 📦 Install Capacitor
+    - name: 📦 Install Capacitor GLOBALLY
       run: |
-        npm install @capacitor/core @capacitor/cli @capacitor/android --force
+        npm install -g @capacitor/cli
+        npm install @capacitor/core @capacitor/android
+        capacitor --version || npx cap --version
         
     - name: ⚙️ Init Capacitor
       run: |
-        npx cap init "Vet" "com.vet.app" --web-dir dist
+        npx cap init "VetApp" "com.vet.app" --web-dir dist
         npx cap add android
         npx cap sync
         
@@ -61,10 +46,10 @@ jobs:
       run: |
         cd android
         chmod +x ./gradlew
-        ./gradlew assembleDebug --stacktrace
+        ./gradlew assembleDebug
         
     - name: 📤 Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: app-debug
+        name: app-apk
         path: android/app/build/outputs/apk/debug/app-debug.apk
