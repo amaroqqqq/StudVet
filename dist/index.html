@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ветеринарный Атлас</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2d5a27">
+    
+    <meta name="theme-color" content="#2d5a27">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ВетАтлас">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    
+    <link rel="preload" href="data:text/javascript;base64,aW1wb3J0IHsgU2NlbmVNYW5hZ2VyIH0gZnJvbSAnLi9hcHAvc2NlbmVNYW5hZ2VyLmpzJzsNCmltcG9ydCB7IFVJTWFuYWdlciB9IGZyb20gJy4vYXBwL3VpTWFuYWdlci5qcyc7DQoNCmRvY3VtZW50LmFkZEV2ZW50TGlzdGVuZXIoJ0RPTUNvbnRlbnRMb2FkZWQnLCBhc3luYyAoKSA9PiB7DQogICAgdHJ5IHsNCiAgICAgICAgLy8g0JfQsNCz0YDRg9C20LDQtdC8INC00LDQvdC90YvQtSDQviDQttC40LLQvtGC0L3Ri9GFDQogICAgICAgIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgZmV0Y2goJy9zcmMvZGF0YS9hbmltYWxzLmpzb24nKTsNCiAgICAgICAgY29uc3QgYW5pbWFsc0RhdGEgPSBhd2FpdCByZXNwb25zZS5qc29uKCk7DQoNCiAgICAgICAgLy8g0JjQvdC40YbQuNCw0LvQuNC30LjRgNGD0LXQvCDQvNC10L3QtdC00LbQtdGA0YsNCiAgICAgICAgY29uc3Qgc2NlbmVNYW5hZ2VyID0gbmV3IFNjZW5lTWFuYWdlcignY2FudmFzM2QnKTsNCiAgICAgICAgY29uc3QgdWlNYW5hZ2VyID0gbmV3IFVJTWFuYWdlcihzY2VuZU1hbmFnZXIsIGFuaW1hbHNEYXRhKTsNCg0KICAgICAgICBjb25zb2xlLmxvZygn0J/RgNC40LvQvtC20LXQvdC40LUg0LjQvdC40YbQuNCw0LvQuNC30LjRgNC+0LLQsNC90L4hJyk7DQoNCiAgICB9IGNhdGNoIChlcnJvcikgew0KICAgICAgICBjb25zb2xlLmVycm9yKCfQntGI0LjQsdC60LAg0LjQvdC40YbQuNCw0LvQuNC30LDRhtC40Lgg0L/RgNC40LvQvtC20LXQvdC40Y86JywgZXJyb3IpOw0KICAgIH0NCn0pOw==" as="script">
+  <script type="module" crossorigin src="/assets/index-C1dSB8TZ.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BLEQ1ucs.css">
+</head>
+<body>
+    <div id="app">
+
+        <aside id="sidebar" class="sidebar-hidden">
+            <div class="sidebar-content">
+                <div class="animal-categories">
+                    <h3>Животные</h3>
+                    <div class="animal-list">
+                        <!-- JavaScript добавит животных здесь -->
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main id="viewport">
+            <canvas id="canvas3d"></canvas>
+
+            <!-- Кнопка выбора животных -->
+            <button id="animal-selector-btn" class="animal-selector-btn">
+                🐾
+            </button>
+
+            <!-- Панель выбора животных -->
+            <div id="animal-selector-panel" class="animal-selector-panel hidden">
+                <div class="animal-selector-header">
+                    <button class="close-panel-btn">✕</button>
+                </div>
+                <div class="animal-selector-content">
+                    <div class="animal-list">
+                        <!-- Список животных будет заполнен JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Оверлей для закрытия панели -->
+            <div id="animal-selector-overlay" class="animal-selector-overlay hidden"></div>
+
+            <div id="loading" class="loading-hidden">
+                <div class="spinner"></div>
+                <p>Загрузка модели...</p>
+            </div>
+        </main>
+
+        <div id="bottom-panel">
+            <div id="left-menu-panel">
+                <button id="menu-toggle">☰</button>
+                <div class="menu-content">
+                    <button class="menu-item">
+                        <div class="menu-icon">👤</div>
+                        <div class="menu-text">Личный кабинет</div>
+                    </button>
+                    <button class="menu-item">
+                        <div class="menu-icon">⚙️</div>
+                        <div class="menu-text">Настройки</div>
+                    </button>
+                    <button class="menu-item">
+                        <div class="menu-icon">ℹ️</div>
+                        <div class="menu-text">О приложении</div>
+                    </button>
+                    <button class="menu-item">
+                        <div class="menu-icon">📚</div>
+                        <div class="menu-text">Материалы</div>
+                    </button>
+                    <button class="menu-item">
+                        <div class="menu-icon">🔍</div>
+                        <div class="menu-text">Поиск</div>
+                    </button>
+                    <button class="menu-item">
+                        <div class="menu-icon">⭐</div>
+                        <div class="menu-text">Избранное</div>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="systems-panel">
+                <button class="system-btn active" data-system="skeleton">
+                    <div class="system-icon">🦴</div>
+                    <div class="system-name">Скелет</div>
+                    <div class="system-latin">skeleton</div>
+                </button>
+                <button class="system-btn" data-system="muscles">
+                    <div class="system-icon">💪</div>
+                    <div class="system-name">Мышцы</div>
+                    <div class="system-latin">muscles</div>
+                </button>
+                <button class="system-btn" data-system="nerves">
+                    <div class="system-icon">🧠</div>
+                    <div class="system-name">Нервы</div>
+                    <div class="system-latin">nerves</div>
+                </button>
+                <button class="system-btn" data-system="organs">
+                    <div class="system-icon">❤️</div>
+                    <div class="system-name">Органы</div>
+                    <div class="system-latin">organs</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

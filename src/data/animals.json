@@ -1,0 +1,46 @@
+[
+    {
+        "id": "dog",
+        "name": "Собака",
+        "latin": "Canis lupus familiaris",
+        "models": {
+            "skeleton": "/src/models/dog/skeleton.glb",
+            "muscles": "/src/models/dog/muscles.glb",
+            "nerves": "/src/models/dog/nerves.glb",
+            "organs": "/src/models/dog/organs.glb"
+        }
+    },
+    {
+        "id": "horse",
+        "name": "Лошадь",
+        "latin": "Equus ferus caballus",
+        "models": {
+            "skeleton": "./src/models/horse/horse_skeleton.glb",
+            "muscles": "/src/models/horse/muscles.glb",
+            "nerves": "/src/models/horse/nerves.glb",
+            "organs": "/src/models/horse/organs.glb"
+        }
+    },
+    {
+        "id": "cow",
+        "name": "Корова",
+        "latin": "Bos taurus",
+        "models": {
+            "skeleton": "./src/models/cow/g4_applejack_august_2024_update.glb",
+            "muscles": "/src/models/cow/muscles.glb",
+            "nerves": "/src/models/cow/nerves.glb",
+            "organs": "/src/models/cow/organs.glb"
+        }
+    },
+    {
+        "id": "pig",
+        "name": "Свинья",
+        "latin": "Sus scrofa domesticus",
+        "models": {
+            "skeleton": "/src/models/pig/skeleton.glb",
+            "muscles": "/src/models/pig/muscles.glb",
+            "nerves": "/src/models/pig/nerves.glb",
+            "organs": "/src/models/pig/organs.glb"
+        }
+    }
+]
