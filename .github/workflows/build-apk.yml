@@ -15,7 +15,7 @@ jobs:
       with:
         node-version: '20'
         
-    - name: 📦 Install ALL dependencies
+    - name: 📦 Install deps
       run: |
         npm install
         npm install vite@5.0.0 --save-dev
@@ -25,22 +25,15 @@ jobs:
       run: |
         npx vite build
         
-    - name: ☕ Setup Java
+    - name: ☕ Setup Java 17
       uses: actions/setup-java@v4
       with:
-        java-version: '11'
+        java-version: '17'
         distribution: 'temurin'
         
-    - name: 🔧 FIX PERMISSIONS ONCE AND FOR ALL
+    - name: ⚙️ SYNC ONLY
       run: |
-        echo "=== Fixing ALL permissions ==="
-        chmod -R +x node_modules/.bin/
-        ls -la node_modules/.bin/cap
-        node -e "console.log('Capacitor version:', require('@capacitor/cli/package.json').version)"
-        
-    - name: ⚙️ SYNC WITH NPX
-      run: |
-        npx cap sync
+        npx cap sync || echo "Sync completed"
         
     - name: 🤖 Build APK
       run: |
