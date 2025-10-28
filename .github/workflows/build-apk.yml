@@ -31,9 +31,13 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
-    - name: ⚙️ SYNC ONLY
+    - name: 🔧 CLEAN AND RECREATE ANDROID
       run: |
-        npx cap sync || echo "Sync completed"
+        echo "=== Cleaning old Android platform ==="
+        rm -rf android
+        npx cap init "VetApp" "com.vet.app" --web-dir dist
+        npx cap add android
+        npx cap sync
         
     - name: 🤖 Build APK
       run: |
