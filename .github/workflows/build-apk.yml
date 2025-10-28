@@ -15,10 +15,11 @@ jobs:
       with:
         node-version: '20'
         
-    - name: 📦 Install deps
+    - name: 📦 Install ALL dependencies
       run: |
         npm install
         npm install vite@5.0.0 --save-dev
+        npm install @capacitor/core @capacitor/cli @capacitor/android --save-dev
         
     - name: 🏗️ Build PWA
       run: |
@@ -30,15 +31,18 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         
-    - name: 📦 Install Capacitor
+    - name: 🔧 FIX CAPACITOR PERMISSIONS
       run: |
-        npm install @capacitor/core @capacitor/cli @capacitor/android
+        echo "=== Fixing Capacitor permissions ==="
+        chmod +x node_modules/.bin/cap
+        ls -la node_modules/.bin/cap
+        ./node_modules/.bin/cap --version || echo "Trying alternative..."
         
-    - name: ⚙️ Init Capacitor
+    - name: ⚙️ Init Capacitor WITH ABSOLUTE PATH
       run: |
-        npx cap init "VetApp" "com.vet.app" --web-dir dist
-        npx cap add android
-        npx cap sync
+        ./node_modules/.bin/cap init "VetApp" "com.vet.app" --web-dir dist
+        ./node_modules/.bin/cap add android
+        ./node_modules/.bin/cap sync
         
     - name: 🤖 Build APK
       run: |
